@@ -43,7 +43,7 @@ body#the-body.dragged::after {
 	padding:0 0 2em 0;
 }
 
-/* Header */ 
+/* Header */
 
 #header{
 	background:#323b43;
@@ -110,7 +110,7 @@ body#the-body.dragged::after {
 	text-decoration: none;
 }
 
-/* Picker */ 
+/* Picker */
 
 #picker{
 	padding:2em 0;
@@ -124,7 +124,7 @@ body#the-body.dragged::after {
 	display: none;
 }
 
-/* File List */ 
+/* File List */
 
 #filegrid img{
 	padding: .35em;
@@ -156,6 +156,13 @@ img.video-type:before{
 }
 
 /*	Modal */
+
+.modal-body a#modal-image {
+	display: block;
+	float: left;
+	width: 500px;
+	min-height: 100px;
+}
 
 .modal-body img {
 	float: left;
@@ -221,7 +228,7 @@ img.video-type:before{
 	#picker{
 		padding:1em;
 	}
-	
+
 	#filegrid{
 		padding-top:0;
 	}
@@ -229,11 +236,11 @@ img.video-type:before{
 	#header #userdetails{
 		width:48%;
 	}
-	
+
 	#header h1{
 		width:48%;
 	}
-	
+
 	#header #userdetails #avatar {
 		border: 1px solid #eee;
 		height: 25px;

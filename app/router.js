@@ -19,7 +19,7 @@ define([
 
 		routes: {
 			'': 						'home',
-			'm': 						'home',
+			'media': 					'home',
 			'authorize': 				'authorize',
 			'logout': 					'logout',
 			'view/:id':					'viewSingleItem',
@@ -62,14 +62,15 @@ define([
 			}
 
 			var singleItem = new app.fileModel( { id: id } );
+			app.singleItemViewInstance = new app.singleView( { model: singleItem } );
 
-			singleItem.fetch().done( _.bind( function () {
-				app.singleItemViewInstance = new app.singleView( { model: singleItem } );
+			this.renderViews( [
+				app.singleItemViewInstance
+			], false );
 
-				this.renderViews( [
-					app.singleItemViewInstance
-				], false );
-			}, this ) );
+			// singleItem.fetch().done( _.bind( function () {
+
+			// }, this ) );
 		},
 
 		renderViews: function ( views, removeCurrentViews ) {
@@ -117,7 +118,7 @@ define([
 			localStorage.setItem( 'access_token', app.auth.accessToken );
 			localStorage.setItem( 'site_id', app.auth.siteID );
 
-			this.navigate( '', {trigger: true} );
+			this.navigate( '', { trigger: true } );
 		}
 	} );
 

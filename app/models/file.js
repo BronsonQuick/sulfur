@@ -6,6 +6,15 @@ define([
 ], function( $, _, Backbone, moment ) {
 	app.fileModel = Backbone.Model.extend( {
 		defaults: {
+			id: '',
+			preview: '/images/place-other.png',
+			date: '',
+			link: '',
+			preview: '',
+			title: ' ',
+			caption: ' ',
+			description: ' ',
+			metadata: {},
 			pending: false
 		},
 

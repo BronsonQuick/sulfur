@@ -21,7 +21,7 @@ require([
 
 	// Redirect to authorize route if there's no auth details
 	if ( _.isNull( app.auth.accessToken ) || _.isNull( app.auth.siteID ) ) {
-		app.router.navigate( 'authorize', { trigger: true, replace: true } );
+		app.router.navigate( 'authorize', { trigger: true } );
 	}
 
 	return app;

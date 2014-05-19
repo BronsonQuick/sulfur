@@ -6,31 +6,49 @@ define([
 	'models/file'
 ], function( $, _, Backbone ) {
 	app.singleView = Backbone.View.extend( {
-		id		: 'single',
-		model 	: app.fileModel,
-		template: _.template( $( '#single-template' ).html() ),
+		id		 : 'single',
+		model 	 : app.fileModel,
+		template : _.template( $( '#single-template' ).html() ),
 
 		events: {
 			'click .btn-danger': 'confirmDelete',
+			'click .close': 'closeModal'
+		},
+
+		initialize: function() {
+			this.model.fetch();
+			this.listenTo( this.model, 'change', _.bind( this.renderImageData, this ) );
 		},
 
 		render: function() {
 			var that = this;
 
+			this.$el.html(
+				this.template( this.model.defaults )
+			).find( '.modal' )
+				.modal( 'show' );
+
+			return this;
+		},
+
+		renderImageData: function() {
 			var data = this.model.attributes;
 			data.preview = this.model.getPreview();
 
 			this.$el.html(
 				this.template( data )
-			);
+			).find( '.modal' )
+				.modal( { backdrop: false } )
+				.find( '#modal-image' )
+					.html( '<img src="' + data.preview + '?w=500">' );
+		},
 
-			this.$el.find( '.modal' )
-				.modal( 'show' )
-				.on( 'hidden.bs.modal', function() {
-					app.router.navigate( 'm', { trigger: false } );
-				} );
+		closeModal: function() {
+			// Remove modal completely
+			this.$el.find( '.modal' ).modal( 'hide' );
+			$( '.modal-backdrop' ).remove();
 
-			return this;
+			app.router.navigate( 'media', { trigger: true } );
 		},
 
 		confirmDelete: function() {
@@ -41,7 +59,7 @@ define([
 
 				this.model.destroy( {
 					success: function( model, response ) {
-						app.router.navigate( '', { trigger: true } );
+						app.router.navigate( 'media', { trigger: true } );
 					}
 				} );
 			}
