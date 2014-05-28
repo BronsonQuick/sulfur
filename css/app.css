@@ -159,7 +159,7 @@ button.more{
 }
 
 .pending {
-	background: url('/images/spinner.gif') #f0f0f0 no-repeat center center;
+	background: url('../images/spinner.gif') #f0f0f0 no-repeat center center;
 }
 
 img.pending {

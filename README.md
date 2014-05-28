@@ -1,37 +1,52 @@
-sulfur
+Sulfuric
 ======
 
-Media manager written for the WordPress.com &amp; Jetpack [REST API](https://developer.wordpress.com/docs/api/).
+Media manager written for Chassis [Chassis](https://github.com/Chassis/Chassis) &amp; WP-API [WP-API](https://github.com/WP-API/WP-API).
 
-Displays all files uploaded to the connected blog and allows you to upload new ones.
-
-Live demo: [sulfur.herokuapp.com](https://sulfur.herokuapp.com).
+Sulfuric *tries* to display all files uploaded to the your Chassis install and *tries* allows you to upload new ones.
 
 ### Requirements
 
-Sulfur is a standalone web application that sends requests to the WordPress API. So in order to run it, you only need two things:
+Sulfuric is a fork of [sulfur](https://github.com/Automattic/sulfur) and it's a standalone web application that sends requests to WP-API [WP-API](https://github.com/WP-API/WP-API)
 
-1. Some kind of webserver. Apache/nginx/etc.
-2. An application on [developer.wordpress.com/apps](https://developer.wordpress.com/apps).
+### Installation
 
-### Installation - Apache
+1. Install [Vagrant](http://vagrantup.com/) and [VirtualBox](https://www.virtualbox.org/).
+2. Clone [Chassis](https://github.com/Chassis/Chassis):
 
-1. git clone https://github.com/Automattic/sulfur (easiest to do this into Apache's document root).
-2. Ensure the Apache user has access to the sulfur directory and all parent directories (`chgrp -r www` usually works).
-3. Configure your webserver to serve it from your sulfur directory.
+   ```bash
+   git clone --recursive git@github.com:Chassis/Chassis.git sulfuric
+   vagrant plugin install vagrant-hostsupdater
+   ```
 
-On development servers, you can fake the domain:
+3. Grab a copy of WP API:
 
-1. Set your hostfile to map sulfur.dev to 127.0.0.1 (or the IP of the server that will be running it).
-2. Use a virtual host configuration so Apache knows you want "sulfur.dev" served from the sulfur directory.
+   ```bash
+   cd sulfuric
+   mkdir -p content/plugins content/themes
+   cp -r wp/wp-content/themes/* content/themes
+   git clone git@github.com:WP-API/WP-API.git content/plugins/json-rest-api
+   git clone git@github.com:WP-API/Basic-Auth.git content/plugins/basic-auth
+   ```
 
-Then, point your browser to the configured domain.
+4. Grab a copy of Sulfuric
+	```
+	git clone git@github.com:BronsonQuick/sulfur.git sulfuric
+	```
 
-### Application Setup
+5. Start the virtual machine:
 
-The application requires a callback URL in order to authenticate with WordPress.com. This can be localhost, or a fake domain, if you just want to test it out locally.
+   ```bash
+   vagrant up
+   ```
 
-1. Create an app on [developer.wordpress.com](https://developer.wordpress.com/apps).
-2. Set the Redirect URL to your app's URL (e.g. sulfur.dev).
-3. Whitelist your domains in the JavaScript origins. Incluing https:// if applicable. 
-4. Edit `app/config.js` to include your app's Client ID from WordPress.com.
+6. Activate both WP-API plugins and change the permalinks
+	```
+	vagrant ssh
+	cd /vagrant/wp
+	wp plugin activate json-rest-api
+	wp plugin activate basic-auth
+	wp rewrite structure '/%year%/%monthnum%/%postname%'
+	```
+
+7. Browse to http://vagrant.local/sulfuric/index.html

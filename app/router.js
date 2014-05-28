@@ -7,7 +7,6 @@ define([
 	'models/file',
 	'views/userdetails',
 	'views/header',
-	'views/authorization',
 	'views/file',
 	'views/filelist',
 	'views/picker',
@@ -20,10 +19,8 @@ define([
 		routes: {
 			'': 						'home',
 			'm': 						'home',
-			'authorize': 				'authorize',
 			'logout': 					'logout',
-			'view/:id':					'viewSingleItem',
-			'access_token=*fragment':	'getAuthFragment'
+			'view/:id':					'viewSingleItem'
 		},
 
 		home: function() {
@@ -38,12 +35,6 @@ define([
 				new app.headerView(),
 				new app.pickerView(),
 				app.filelistViewInstance
-			] );
-		},
-
-		authorize: function() {
-			this.renderViews( [
-				new app.authorizationView()
 			] );
 		},
 
@@ -95,29 +86,6 @@ define([
 			}, this ) );
 
 			return this;
-		},
-
-		getAuthFragment: function () {
-			// Extract the auth details from the # fragment returned by the API
-			var response = _.object(
-				_.compact(
-					_.map( location.hash.slice( 1 ).split( '&' ), function ( item ) {
-						if ( item ) {
-							return item.split( '=' );
-						}
-					} )
-				)
-			);
-
-			app.auth = {
-				accessToken: decodeURIComponent( response.access_token ),
-				siteID     : response.site_id
-			};
-
-			localStorage.setItem( 'access_token', app.auth.accessToken );
-			localStorage.setItem( 'site_id', app.auth.siteID );
-
-			this.navigate( '', {trigger: true} );
 		}
 	} );
 

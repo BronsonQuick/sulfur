@@ -95,7 +95,7 @@ define([
 		},
 
 		setLoading: function () {
-			this.$el.html( '<p>Loading your media library...</p>' );
+			this.$el.html( '<p>Loading your media library...<img src="images/spinner.gif" alt="Soon" /></p>' );
 		},
 
 		setEmpty: function() {

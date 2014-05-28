@@ -11,7 +11,7 @@ define([
 		template: _.template( $( '#single-template' ).html() ),
 
 		events: {
-			'click .btn-danger': 'confirmDelete',
+			'click .btn-danger': 'confirmDelete'
 		},
 
 		render: function() {

@@ -28,11 +28,13 @@ define([
 
 			this.uploader = new plupload.Uploader( {
 				runtimes      : 'html5,html4',
+				headers       : {
+					Authorization: 'Basic YWRtaW46cGFzc3dvcmQ='
+				},
 				browse_button : button,
 				container     : container,
-				url           : 'https://public-api.wordpress.com/rest/v1/sites/' + app.auth.siteID + '/media/new',
-				file_data_name: 'media[]',
-				headers       : { Authorization: "Bearer " + app.auth.accessToken },
+				url           : 'http://vagrant.local/wp-json/media/',
+				file_data_name: 'file',
 				drop_element  : dropZone,
 				filters       : {
 					max_file_size: '10mb',
@@ -46,7 +48,6 @@ define([
 						plupload.each( files, function ( file ) {
 							var thumbnail = new mOxie.Image();
 							thumbnail.onload = function () {
-								thumbnail.downsize( 150, 150 );
 								var newFile = new app.fileModel( {
 									      'id': file.id,
 									      'link': thumbnail.getAsDataURL()
@@ -77,12 +78,13 @@ define([
 
 					FileUploaded: function ( up, file, response ) {
 						var data = jQuery.parseJSON( response.response );
-						$.each( data['media'], function ( i, elem ) {
-							var cid = $( '#file-' + file.id ).data( 'id' );
+						$.each( data.ID, function ( i, elem ) {
+							var cid = $( '#file-' + file.id );;
 							var newFile = app.filelistViewInstance.collection.get( cid );
 							newFile.set( elem );
 							newFile.set( { pending: false } );
 						} );
+
 					},
 
 					UploadComplete: function ( up, file ) {

@@ -9,7 +9,7 @@ define([
 		found: 0,
 
 		url: function () {
-			return 'https://public-api.wordpress.com/rest/v1/sites/' + app.auth.siteID + '/media/?number=50';
+			return 'http://vagrant.local/wp-json/media/';
 		},
 
 		initialize: function () {
@@ -19,8 +19,8 @@ define([
 		},
 
 		parse: function ( response ) {
-			this.found = response.found;
-			return response.media;
+			this.found = response.length;
+			return response;
 		}
 	} );
 
